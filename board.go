@@ -114,6 +114,7 @@ func printCurrentBoard() {
 func checkWinner(player int) bool {
 	for _, v := range winningStrategy {
 		if board[boardReference[v[0]]] == playerStep(player) && board[boardReference[v[1]]] == playerStep(player) && board[boardReference[v[2]]] == playerStep(player) {
+			fmt.Println("Player", player, "won!")
 			return true
 		}
 	}

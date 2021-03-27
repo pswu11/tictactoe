@@ -15,14 +15,17 @@ func playerStep(player int) string {
 	return "X"
 }
 
-func playerRound(player int) {
+func playerRound(player int, round int) {
 	pos := giveStep(player)
 	updateBoard(pos, playerStep(player))
-	if checkWinner(player) {
-		fmt.Println("Player", player, "won!")
+	if round == 8 && checkWinner(player) == false {
+		fmt.Println("Draw!")
 		playerRestart()
 	}
 
+	if checkWinner(player) {
+		playerRestart()
+	}
 }
 
 func playerRestart() {
