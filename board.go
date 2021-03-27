@@ -12,11 +12,7 @@ type vector struct {
 	X, Y int
 }
 
-type line struct {
-	dotOne   vector
-	dotTwo   vector
-	dotThree vector
-}
+type line []vector
 
 var board = make([]string, 9)
 
@@ -30,6 +26,17 @@ var boardReference = map[vector]int{
 	{1, 1}: 6,
 	{2, 1}: 7,
 	{3, 1}: 8,
+}
+
+var winningStrategy = map[int]line{
+	1: {{1, 1}, {1, 2}, {1, 3}},
+	2: {{2, 1}, {2, 2}, {2, 3}},
+	3: {{3, 1}, {3, 2}, {3, 3}},
+	4: {{1, 1}, {2, 1}, {3, 1}},
+	5: {{1, 2}, {2, 2}, {3, 2}},
+	6: {{1, 3}, {2, 3}, {3, 3}},
+	7: {{1, 1}, {2, 2}, {3, 3}},
+	8: {{1, 3}, {2, 2}, {3, 1}},
 }
 
 func giveStep(player int) vector {
@@ -83,9 +90,7 @@ func updateBoard(position vector, step string) {
 
 func newBoard() {
 	for i := range board {
-		if board[i] == "" {
-			board[i] = " "
-		}
+		board[i] = " "
 	}
 	printCurrentBoard()
 }
@@ -105,16 +110,11 @@ func printCurrentBoard() {
 
 }
 
-func playerStep(player int) string {
-	if player == 1 {
-		return "O"
+func checkWinner(player int) bool {
+	for _, v := range winningStrategy {
+		if board[boardReference[v[0]]] == playerStep(player) && board[boardReference[v[1]]] == playerStep(player) && board[boardReference[v[2]]] == playerStep(player) {
+			return true
+		}
 	}
-
-	return "X"
-}
-
-func playerRound(player int) {
-	pos := giveStep(player)
-	updateBoard(pos, playerStep(player))
-
+	return false
 }
