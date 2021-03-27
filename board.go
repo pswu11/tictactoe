@@ -50,6 +50,7 @@ func giveStep(player int) vector {
 
 	p := []string(strings.Split(strings.TrimSpace(pos), ""))
 
+	// validate input length == 2
 	if len(p) != 2 {
 		fmt.Println("Invalid position, try again.")
 		return giveStep(player)
@@ -69,7 +70,7 @@ func giveStep(player int) vector {
 	position.X = int(x)
 	position.Y = int(y)
 
-	// validate input == available
+	// validate input is available
 	_, ok := boardReference[position]
 	if ok {
 		if board[boardReference[position]] != " " {
