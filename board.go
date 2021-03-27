@@ -14,18 +14,16 @@ type vector struct {
 
 type line []vector
 
-var board = make([]string, 9)
-
-var boardReference = map[vector]int{
-	{1, 3}: 0,
-	{2, 3}: 1,
-	{3, 3}: 2,
-	{1, 2}: 3,
-	{2, 2}: 4,
-	{3, 2}: 5,
-	{1, 1}: 6,
-	{2, 1}: 7,
-	{3, 1}: 8,
+var board = map[vector]string{
+	{1, 3}: "",
+	{2, 3}: "",
+	{3, 3}: "",
+	{1, 2}: "",
+	{2, 2}: "",
+	{3, 2}: "",
+	{1, 1}: "",
+	{2, 1}: "",
+	{3, 1}: "",
 }
 
 var winningStrategy = map[int]line{
@@ -71,9 +69,9 @@ func giveStep(player int) vector {
 	position.Y = int(y)
 
 	// validate input is available
-	_, ok := boardReference[position]
+	_, ok := board[position]
 	if ok {
-		if board[boardReference[position]] != " " {
+		if board[position] != " " {
 
 			fmt.Println("This position is taken!")
 			return giveStep(player)
@@ -84,7 +82,7 @@ func giveStep(player int) vector {
 
 func updateBoard(position vector, step string) {
 
-	board[boardReference[position]] = step
+	board[position] = step
 	printCurrentBoard()
 
 }
@@ -101,9 +99,9 @@ func printCurrentBoard() {
 	ln := "   -------------\n"
 	head := "(Y)                \n"
 	foot := "     1   2   3  (X)\n"
-	bodyThree := fmt.Sprintf(" 3 | %v | %v | %v |\n", board[0], board[1], board[2])
-	bodyTwo := fmt.Sprintf(" 2 | %v | %v | %v |\n", board[3], board[4], board[5])
-	bodyOne := fmt.Sprintf(" 1 | %v | %v | %v |\n", board[6], board[7], board[8])
+	bodyThree := fmt.Sprintf(" 3 | %v | %v | %v |\n", board[vector{1, 3}], board[vector{2, 3}], board[vector{3, 3}])
+	bodyTwo := fmt.Sprintf(" 2 | %v | %v | %v |\n", board[vector{1, 2}], board[vector{2, 2}], board[vector{3, 2}])
+	bodyOne := fmt.Sprintf(" 1 | %v | %v | %v |\n", board[vector{1, 1}], board[vector{2, 1}], board[vector{3, 1}])
 
 	result := head + ln + bodyThree + ln + bodyTwo + ln + bodyOne + ln + foot
 
@@ -113,7 +111,7 @@ func printCurrentBoard() {
 
 func checkWinner(player int) bool {
 	for _, v := range winningStrategy {
-		if board[boardReference[v[0]]] == playerStep(player) && board[boardReference[v[1]]] == playerStep(player) && board[boardReference[v[2]]] == playerStep(player) {
+		if board[v[0]] == playerStep(player) && board[v[1]] == playerStep(player) && board[v[2]] == playerStep(player) {
 			fmt.Println("Player", player, "won!")
 			return true
 		}

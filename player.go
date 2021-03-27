@@ -18,13 +18,15 @@ func playerStep(player int) string {
 func playerRound(player int, round int) {
 	pos := giveStep(player)
 	updateBoard(pos, playerStep(player))
-	if round == 8 && checkWinner(player) == false {
-		fmt.Println("Draw!")
+	if round == 8 {
+		if checkWinner(player) == false {
+			fmt.Println("Draw!")
+		}
 		playerRestart()
-	}
-
-	if checkWinner(player) {
-		playerRestart()
+	} else if round != 8 {
+		if checkWinner(player) {
+			playerRestart()
+		}
 	}
 }
 
