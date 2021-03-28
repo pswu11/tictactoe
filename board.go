@@ -12,32 +12,32 @@ type vector struct {
 	X, Y int
 }
 
-type line []vector
+type line []int
 
-var board = map[vector]string{
-	{1, 3}: "",
-	{2, 3}: "",
-	{3, 3}: "",
-	{1, 2}: "",
-	{2, 2}: "",
-	{3, 2}: "",
-	{1, 1}: "",
-	{2, 1}: "",
-	{3, 1}: "",
+var board = map[int]string{
+	1: "1",
+	2: "2",
+	3: "3",
+	4: "4",
+	5: "5",
+	6: "6",
+	7: "7",
+	8: "8",
+	9: "9",
 }
 
 var winningStrategy = map[int]line{
-	1: {{1, 1}, {1, 2}, {1, 3}},
-	2: {{2, 1}, {2, 2}, {2, 3}},
-	3: {{3, 1}, {3, 2}, {3, 3}},
-	4: {{1, 1}, {2, 1}, {3, 1}},
-	5: {{1, 2}, {2, 2}, {3, 2}},
-	6: {{1, 3}, {2, 3}, {3, 3}},
-	7: {{1, 1}, {2, 2}, {3, 3}},
-	8: {{1, 3}, {2, 2}, {3, 1}},
+	1: {1, 2, 3},
+	2: {4, 5, 6},
+	3: {7, 8, 9},
+	4: {1, 4, 7},
+	5: {2, 5, 8},
+	6: {3, 6, 9},
+	7: {1, 5, 9},
+	8: {3, 5, 7},
 }
 
-func giveStep(player int) vector {
+func giveStep(player int) int {
 
 	fmt.Println("Player", player, "'s move:")
 	buf := bufio.NewReader(os.Stdin)
@@ -46,32 +46,26 @@ func giveStep(player int) vector {
 		fmt.Println(err)
 	}
 
-	p := []string(strings.Split(strings.TrimSpace(pos), ""))
+	p := strings.TrimSpace(pos)
 
-	// validate input length == 2
-	if len(p) != 2 {
+	// validate input length == 1
+	if len(p) != 1 {
 		fmt.Println("Invalid position, try again.")
 		return giveStep(player)
 	}
 
-	x, err1 := strconv.Atoi(p[0])
-	y, err2 := strconv.Atoi(p[1])
+	position, err1 := strconv.Atoi(p)
 
 	// validate input == integers
-	if err1 != nil || err2 != nil {
+	if err1 != nil {
 		fmt.Println("Invalid position, try again.")
 		return giveStep(player)
 	}
-
-	var position vector
-
-	position.X = int(x)
-	position.Y = int(y)
 
 	// validate input is available
 	_, ok := board[position]
 	if ok {
-		if board[position] != " " {
+		if board[position] == "X" || board[position] == "O" {
 
 			fmt.Println("This position is taken!")
 			return giveStep(player)
@@ -80,7 +74,7 @@ func giveStep(player int) vector {
 	return position
 }
 
-func updateBoard(position vector, step string) {
+func updateBoard(position int, step string) {
 
 	board[position] = step
 	printCurrentBoard()
@@ -89,21 +83,19 @@ func updateBoard(position vector, step string) {
 
 func newBoard() {
 	for i := range board {
-		board[i] = " "
+		board[i] = strconv.Itoa(i)
 	}
 	printCurrentBoard()
 }
 
 func printCurrentBoard() {
 
-	ln := "   -------------\n"
-	head := "(Y)                \n"
-	foot := "     1   2   3  (X)\n"
-	bodyThree := fmt.Sprintf(" 3 | %v | %v | %v |\n", board[vector{1, 3}], board[vector{2, 3}], board[vector{3, 3}])
-	bodyTwo := fmt.Sprintf(" 2 | %v | %v | %v |\n", board[vector{1, 2}], board[vector{2, 2}], board[vector{3, 2}])
-	bodyOne := fmt.Sprintf(" 1 | %v | %v | %v |\n", board[vector{1, 1}], board[vector{2, 1}], board[vector{3, 1}])
+	ln := " -------------\n"
+	bodyThree := fmt.Sprintf(" | %v | %v | %v |\n", board[1], board[2], board[3])
+	bodyTwo := fmt.Sprintf(" | %v | %v | %v |\n", board[4], board[5], board[6])
+	bodyOne := fmt.Sprintf(" | %v | %v | %v |\n", board[7], board[8], board[9])
 
-	result := head + ln + bodyThree + ln + bodyTwo + ln + bodyOne + ln + foot
+	result := ln + bodyThree + ln + bodyTwo + ln + bodyOne + ln
 
 	println(result)
 
