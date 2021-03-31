@@ -30,6 +30,21 @@ func playerRound(player int, round int) {
 	}
 }
 
+func computerPlayerRound(player int, round int) {
+	pos := giveRandomStep()
+	updateBoard(pos, playerStep(player))
+	if round == 8 {
+		if checkWinner(player) == false {
+			fmt.Println("Draw!")
+		}
+		playerRestart()
+	} else if round != 8 {
+		if checkWinner(player) {
+			playerRestart()
+		}
+	}
+}
+
 func playerRestart() {
 
 	fmt.Println("Do you want to restart? (y/n)")
@@ -40,7 +55,7 @@ func playerRestart() {
 	}
 
 	if strings.ToLower(strings.TrimSpace(answer)) == "y" {
-		newGame()
+		gameMode()
 	} else if strings.ToLower(strings.TrimSpace(answer)) == "n" {
 		os.Exit(0)
 	}
