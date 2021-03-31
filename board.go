@@ -3,9 +3,11 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type vector struct {
@@ -48,7 +50,7 @@ func giveStep(player int) vector {
 
 	p := []string(strings.Split(strings.TrimSpace(pos), ""))
 
-	// validate input length == 2
+	// validate input length == 2 and != 0
 	if len(p) != 2 {
 		fmt.Println("Invalid position, try again.")
 		return giveStep(player)
@@ -68,16 +70,45 @@ func giveStep(player int) vector {
 	position.X = int(x)
 	position.Y = int(y)
 
-	// validate input is available
+	// validate if position is available
+	if isPositionAvailable(position) == false {
+		fmt.Println("Invalid position, try again:")
+		return giveStep(player)
+	}
+	return position
+
+}
+
+func giveRandomStep() vector {
+
+	var position vector
+
+	source1 := rand.NewSource(time.Now().UnixNano())
+	source2 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(source1)
+	r2 := rand.New(source2)
+	position.X = r1.Intn(3) + 1
+	position.Y = r2.Intn(3) + 1
+
+	fmt.Println("Computer is taking", position)
+
+	if isPositionAvailable(position) == false {
+		fmt.Println("Invalid position, try again.")
+		return giveRandomStep()
+	}
+	return position
+}
+
+func isPositionAvailable(position vector) bool {
+
 	_, ok := board[position]
 	if ok {
 		if board[position] != " " {
-
-			fmt.Println("This position is taken!")
-			return giveStep(player)
+			return false
 		}
+		return true
 	}
-	return position
+	return false
 }
 
 func updateBoard(position vector, step string) {
