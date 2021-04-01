@@ -17,7 +17,7 @@ func playerStep(player int) string {
 
 func playerRound(player int, round int) {
 	pos := giveStep(player)
-	updateBoard(pos, playerStep(player))
+	updateBoard(pos, playerStep(player), board)
 	if round == 8 {
 		if checkWinner(player) == false {
 			fmt.Println("Draw!")
@@ -32,7 +32,7 @@ func playerRound(player int, round int) {
 
 func computerPlayerRound(player int, round int) {
 	pos := giveRandomStep()
-	updateBoard(pos, playerStep(player))
+	updateBoard(pos, playerStep(player), board)
 	if round == 8 {
 		if checkWinner(player) == false {
 			fmt.Println("Draw!")

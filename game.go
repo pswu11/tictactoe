@@ -27,7 +27,7 @@ func gameMode() {
 
 func newGameTwoPlayers() {
 	newBoard()
-	fmt.Println("Please take your position by typing the coordinate in XY format  (e.g. 13)")
+	fmt.Println("Please choose your step by typing the coordinate (row and column), e.g. 13")
 	for i := 0; i < 9; i++ {
 		if i%2 == 0 {
 			playerRound(1, i)
@@ -39,7 +39,8 @@ func newGameTwoPlayers() {
 
 func newGamewithComputer() {
 	newBoard()
-	fmt.Println("Please take your position by typing the coordinate in XY format  (e.g. 13)")
+	fmt.Println("You are player 1")
+	fmt.Println("Please choose your step by typing the coordinate (row and column), e.g. 13")
 	for i := 0; i < 9; i++ {
 		if i%2 == 0 {
 			playerRound(1, i)

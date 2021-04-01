@@ -111,9 +111,10 @@ func isPositionAvailable(position vector) bool {
 	return false
 }
 
-func updateBoard(position vector, step string) {
+func updateBoard(position vector, step string, targetboard map[vector]string) {
 
-	board[position] = step
+	targetBoard := targetboard
+	targetBoard[position] = step
 	printCurrentBoard()
 
 }
@@ -128,11 +129,11 @@ func newBoard() {
 func printCurrentBoard() {
 
 	ln := "   -------------\n"
-	head := "(Y)                \n"
-	foot := "     1   2   3  (X)\n"
-	bodyThree := fmt.Sprintf(" 3 | %v | %v | %v |\n", board[vector{1, 3}], board[vector{2, 3}], board[vector{3, 3}])
-	bodyTwo := fmt.Sprintf(" 2 | %v | %v | %v |\n", board[vector{1, 2}], board[vector{2, 2}], board[vector{3, 2}])
-	bodyOne := fmt.Sprintf(" 1 | %v | %v | %v |\n", board[vector{1, 1}], board[vector{2, 1}], board[vector{3, 1}])
+	head := "     1   2   3  (Column)\n"
+	foot := "(Row)           \n"
+	bodyThree := fmt.Sprintf(" 1 | %v | %v | %v |\n", board[vector{1, 1}], board[vector{1, 2}], board[vector{1, 3}])
+	bodyTwo := fmt.Sprintf(" 2 | %v | %v | %v |\n", board[vector{2, 1}], board[vector{2, 2}], board[vector{2, 3}])
+	bodyOne := fmt.Sprintf(" 3 | %v | %v | %v |\n", board[vector{3, 1}], board[vector{3, 2}], board[vector{3, 3}])
 
 	result := head + ln + bodyThree + ln + bodyTwo + ln + bodyOne + ln + foot
 
