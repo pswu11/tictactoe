@@ -90,12 +90,11 @@ func giveRandomStep() vector {
 	position.X = r1.Intn(3) + 1
 	position.Y = r2.Intn(3) + 1
 
-	fmt.Println("Computer is taking", position)
-
 	if isPositionAvailable(position) == false {
-		fmt.Println("Invalid position, try again.")
 		return giveRandomStep()
 	}
+
+	fmt.Printf("Computer is taking {%v, %v}\n\n", position.X, position.Y)
 	return position
 }
 

@@ -58,5 +58,7 @@ func playerRestart() {
 		gameMode()
 	} else if strings.ToLower(strings.TrimSpace(answer)) == "n" {
 		os.Exit(0)
+	} else {
+		playerRestart()
 	}
 }
